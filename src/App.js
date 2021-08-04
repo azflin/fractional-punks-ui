@@ -19,18 +19,26 @@ function App() {
   useEffect(() => {
     async function demo() {
       setName(await hoodieContract.name());
-      setReservePrice(await hoodieContract.reservePrice());
-      setTotalSupply(await hoodieContract.totalSupply());
+      setReservePrice(ethers.utils.formatEther(await hoodieContract.reservePrice()));
+      setTotalSupply(ethers.utils.formatEther(await hoodieContract.totalSupply()));
     }
     demo();
   }, []);
 
   return (
     <Container>
-      <h1 className="text-center">{name}</h1>
-      <div className="text-center">
-        <img src={punk7171} width="250px"></img>
-      </div>
+      <Row>
+        <h1 className="text-center">{name}</h1>
+        <div className="text-center">
+          <img src={punk7171} width="250px"></img>
+        </div>
+      </Row>
+      <Row>
+        <Col>
+          <div><strong>Reserve Price:&nbsp;</strong>{reservePrice}</div>
+          <div><strong>Total Supply:&nbsp;</strong>{totalSupply}</div>
+        </Col>
+      </Row>
     </Container>
   );
 }
