@@ -4,8 +4,10 @@ import { ethers } from "ethers";
 import tokenVaultAbi from "./abis/token-vault-abi.json";
 import React, { useEffect, useState } from 'react';
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
-import punk7171 from './images/punk7171.png';
 import { useTable } from 'react-table';
+
+import SwapsTable from './components/SwapsTable.js';
+import punk7171 from './images/punk7171.png';
 
 const HOODIE_ADDRESS = "0xdffa3a7f5b40789c7a437dbe7b31b47f9b08fe75";
 const POOL_ADDRESS = "0xf1a8f0d86659c67780e3396bd6aee05af3566c6a";
@@ -136,9 +138,7 @@ function App() {
         </Col>
       </Row>
       <Row>
-        <Table>
-          <thead></thead>
-        </Table>
+        <SwapsTable swaps={swaps}></SwapsTable>
       </Row>
     </Container>
   );
