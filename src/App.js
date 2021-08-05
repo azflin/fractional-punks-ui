@@ -2,9 +2,10 @@ import './App.css';
 import { Container, Col, Row, Table } from 'react-bootstrap';
 import { ethers } from "ethers";
 import tokenVaultAbi from "./abis/token-vault-abi.json";
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
-import punk7171 from './images/punk7171.png'
+import punk7171 from './images/punk7171.png';
+import { useTable } from 'react-table';
 
 const HOODIE_ADDRESS = "0xdffa3a7f5b40789c7a437dbe7b31b47f9b08fe75";
 const POOL_ADDRESS = "0xf1a8f0d86659c67780e3396bd6aee05af3566c6a";
@@ -62,10 +63,38 @@ function App() {
   const [liquidityToken1, setLiquidityToken1] = useState();
   const [swaps, setSwaps] = useState([]);
 
+  // Build swaps table
+  const columns = React.useMemo(
+    () => [
+      {
+        Header: 'Date',
+        accessor: 'timestamp'
+      },
+      {
+        Header: 'ETH',
+        accessor: 'amount0'
+      },
+      {
+        Header: 'HOODIE',
+        accessor: 'amount1'
+      }
+    ],
+    []
+  )
+  const tableInstance = useTable({ columns, data: swaps });
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+  } = tableInstance;
+
 
   // Initially retrieve data
   useEffect(() => {
-    async function demo() {
+    console.log("Using effect!");
+    async function retrieveData() {
       // Ethers contract data
       setName(await hoodieContract.name());
       setSymbol(await hoodieContract.symbol());
@@ -83,7 +112,7 @@ function App() {
       setLiquidityToken1(graphData.totalValueLockedToken1);
       setSwaps(graphData.swaps);
     }
-    demo();
+    retrieveData();
   }, []);
 
   return (
