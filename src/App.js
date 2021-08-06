@@ -25,7 +25,7 @@ const poolQuery = `
       token1Price,
       totalValueLockedToken0,
       totalValueLockedToken1,
-      swaps {
+      swaps(orderBy: timestamp, orderDirection: desc) {
         timestamp,
         amount0,
         amount1

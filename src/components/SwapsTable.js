@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTable } from 'react-table';
+import { useTable, useSortBy } from 'react-table';
 
 export default function SwapsTable({swaps}) {
 
@@ -8,19 +8,25 @@ export default function SwapsTable({swaps}) {
       {
         Header: 'Date',
         accessor: 'timestamp',
+        Cell: props => new Intl.DateTimeFormat('en-US', {
+          year: 'numeric', month: 'numeric', day: 'numeric',
+          hour: 'numeric', minute: 'numeric', second: 'numeric',
+          hour12: false,
+          timeZone: 'ETC/GMT'
+        }).format(new Date(props.value * 1000))
       },
       {
-        Header: 'Amount 0',
+        Header: 'Token 0',
         accessor: 'amount0',
       },
       {
-        Header: 'Amount 1',
+        Header: 'Token 1',
         accessor: 'amount1',
       }
     ],
     []
   )
-  const tableInstance = useTable({columns, data: swaps});
+  const tableInstance = useTable({columns, data: swaps}, useSortBy);
   const {
     getTableProps,
     getTableBodyProps,
@@ -40,9 +46,15 @@ export default function SwapsTable({swaps}) {
             {// Loop over the headers in each row
             headerGroup.headers.map(column => (
               // Apply the header cell props
-              <th {...column.getHeaderProps()}>
-                {// Render the header
-                column.render('Header')}
+              <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                {column.render('Header')}
+                <span>
+                    {column.isSorted
+                      ? column.isSortedDesc
+                        ? ' 🔽'
+                        : ' 🔼'
+                      : ''}
+                  </span>
               </th>
             ))}
           </tr>
@@ -52,18 +64,14 @@ export default function SwapsTable({swaps}) {
       <tbody {...getTableBodyProps()}>
         {// Loop over the table rows
         rows.map(row => {
-          // Prepare the row for display
-          prepareRow(row)
+          prepareRow(row);
           return (
-            // Apply the row props
             <tr {...row.getRowProps()}>
-              {// Loop over the rows cells
+              {
               row.cells.map(cell => {
-                // Apply the cell props
                 return (
                   <td {...cell.getCellProps()}>
-                    {// Render the cell contents
-                    cell.render('Cell')}
+                    {cell.render('Cell')}
                   </td>
                 )
               })}
