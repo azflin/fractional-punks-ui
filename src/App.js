@@ -108,7 +108,9 @@ function App() {
         </Col>
       </Row>
       <Row>
-        <SwapsTable swaps={swaps}></SwapsTable>
+        { swaps.length && token0 && token1 &&
+        <SwapsTable swaps={swaps} token0={token0} token1={token1}></SwapsTable>
+        }
       </Row>
     </Container>
   );

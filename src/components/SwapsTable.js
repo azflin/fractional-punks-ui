@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTable, useSortBy } from 'react-table';
 
-export default function SwapsTable({swaps}) {
+export default function SwapsTable({swaps, token0, token1}) {
 
   const columns = React.useMemo(
     () => [
@@ -16,11 +16,11 @@ export default function SwapsTable({swaps}) {
         }).format(new Date(props.value * 1000))
       },
       {
-        Header: 'Token 0',
+        Header: token0,
         accessor: 'amount0',
       },
       {
-        Header: 'Token 1',
+        Header: token1,
         accessor: 'amount1',
       }
     ],
