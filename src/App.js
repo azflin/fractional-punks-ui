@@ -98,13 +98,13 @@ function App() {
       <Row>
         <Col>
           <div><strong>Token:&nbsp;</strong>${symbol}</div>
-          <div><strong>Reserve Price:&nbsp;</strong>{reservePrice}</div>
+          <div><strong>Reserve Price:&nbsp;</strong>{parseFloat(reservePrice).toFixed(2)} ETH</div>
           <div><strong>Total Supply:&nbsp;</strong>{totalSupply}</div>
-          <div><strong>{token1} Price:&nbsp;</strong>{token0Price} {token0}</div>
-          <div><strong>{token0} Price:&nbsp;</strong>{token1Price} {token1}</div>
-          <div><strong>{token0} Liquidity:&nbsp;</strong>{liquidityToken0} {token0}</div>
-          <div><strong>{token1} Liquidity:&nbsp;</strong>{liquidityToken1} {token1}</div>
-          <div><strong>Implied Valuation:&nbsp;</strong>{parseFloat(totalSupply)*parseFloat(token0Price)} {token0}</div>
+          <div><strong>{token1} Price:&nbsp;</strong>{parseFloat(token0Price).toFixed(5)} {token0}</div>
+          <div><strong>{token0} Price:&nbsp;</strong>{parseFloat(token1Price).toFixed(2)} {token1}</div>
+          <div><strong>{token0} Liquidity:&nbsp;</strong>{parseFloat(liquidityToken0).toFixed(2)} {token0}</div>
+          <div><strong>{token1} Liquidity:&nbsp;</strong>{parseFloat(liquidityToken1).toFixed(2)} {token1}</div>
+          <div><strong>Implied Valuation:&nbsp;</strong>{(parseFloat(totalSupply)*parseFloat(token0Price)).toFixed(2)} {token0}</div>
         </Col>
       </Row>
       <Row>
