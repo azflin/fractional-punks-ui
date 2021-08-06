@@ -1,10 +1,9 @@
 import './App.css';
-import { Container, Col, Row, Table } from 'react-bootstrap';
+import { Container, Col, Row } from 'react-bootstrap';
 import { ethers } from "ethers";
 import tokenVaultAbi from "./abis/token-vault-abi.json";
 import React, { useEffect, useState } from 'react';
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
-import { useTable } from 'react-table';
 
 import SwapsTable from './components/SwapsTable.js';
 import punk7171 from './images/punk7171.png';
@@ -65,37 +64,8 @@ function App() {
   const [liquidityToken1, setLiquidityToken1] = useState();
   const [swaps, setSwaps] = useState([]);
 
-  // Build swaps table
-  const columns = React.useMemo(
-    () => [
-      {
-        Header: 'Date',
-        accessor: 'timestamp'
-      },
-      {
-        Header: 'ETH',
-        accessor: 'amount0'
-      },
-      {
-        Header: 'HOODIE',
-        accessor: 'amount1'
-      }
-    ],
-    []
-  )
-  const tableInstance = useTable({ columns, data: swaps });
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = tableInstance;
-
-
   // Initially retrieve data
   useEffect(() => {
-    console.log("Using effect!");
     async function retrieveData() {
       // Ethers contract data
       setName(await hoodieContract.name());

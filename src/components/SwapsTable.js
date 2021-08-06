@@ -1,5 +1,4 @@
-import { Table } from 'react-bootstrap';
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useTable } from 'react-table';
 
 export default function SwapsTable({swaps}) {
