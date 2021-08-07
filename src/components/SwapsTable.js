@@ -49,8 +49,8 @@ export default function SwapsTable({swaps, token0, token1}) {
   return (
     <div>
       <h3>Trades (Last 100)</h3>
-      <table {...getTableProps()}>
-        <thead>
+      <table {...getTableProps()} style={{width: "80%", border: "1px solid white", borderStyle: "ridge"}} className="mb-2">
+        <thead style={{background: 'rgba(83, 83, 83, 0.55)'}}>
           {
           headerGroups.map(headerGroup => (
             <tr {...headerGroup.getHeaderGroupProps()}>

@@ -89,7 +89,7 @@ function App() {
 
   return (
     <Container>
-      <Row className="mt-3">
+      <Row className="my-3">
         <Col md="auto">
           <h1 className="text-center">${symbol}</h1>
           <div className="text-center">
