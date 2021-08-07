@@ -18,10 +18,12 @@ export default function SwapsTable({swaps, token0, token1}) {
       {
         Header: token0,
         accessor: 'amount0',
+        Cell: props => parseFloat(props.value).toFixed(3)
       },
       {
         Header: token1,
         accessor: 'amount1',
+        Cell: props => parseFloat(props.value).toFixed(1)
       }
     ],
     []
@@ -43,6 +45,7 @@ export default function SwapsTable({swaps, token0, token1}) {
           <tr {...headerGroup.getHeaderGroupProps()}>
             {
             headerGroup.headers.map(column => (
+              // Add column header sorting
               <th {...column.getHeaderProps(column.getSortByToggleProps())}>
                 {column.render('Header')}
                 <span>
@@ -62,7 +65,7 @@ export default function SwapsTable({swaps, token0, token1}) {
         rows.map(row => {
           prepareRow(row);
           return (
-            <tr {...row.getRowProps([{style: {background: 'blue'}}])}>
+            <tr {...row.getRowProps([{style: {background: parseFloat(row.values.amount0) > 0 ? 'rgba(0, 255, 0, 0.25)' : 'rgba(255, 0, 0, 0.25)'}}])}>
               {
               row.cells.map(cell => {
                 return (
