@@ -48,7 +48,8 @@ export default function SwapsTable({swaps, token0, token1}) {
 
   return (
     <div>
-      <table {...getTableProps()} className="table table-hover table-bordered">
+      <h3>Swaps (Last 100)</h3>
+      <table {...getTableProps()}>
         <thead>
           {
           headerGroups.map(headerGroup => (

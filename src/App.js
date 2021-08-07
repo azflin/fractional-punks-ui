@@ -90,22 +90,24 @@ function App() {
   return (
     <Container>
       <Row>
-        <h1 className="text-center">${symbol}</h1>
-        <div className="text-center">
-          <img src={punk7171} width="250px" style={{borderRadius: "25px"}}></img>
-        </div>
-      </Row>
-      <Row>
-        <Col>
-          <div><strong>Token:&nbsp;</strong>${symbol}</div>
-          <div><strong>Name:&nbsp;</strong>{name}</div>
-          <div><strong>Reserve Price:&nbsp;</strong>{parseFloat(reservePrice).toFixed(2)} ETH</div>
-          <div><strong>Total Supply:&nbsp;</strong>{totalSupply && parseInt(totalSupply).toLocaleString()}</div>
-          <div><strong>{token1} Price:&nbsp;</strong>{parseFloat(token0Price).toFixed(5)} {token0}</div>
-          <div><strong>{token0} Price:&nbsp;</strong>{parseFloat(token1Price).toFixed(2)} {token1}</div>
-          <div><strong>{token0} Liquidity:&nbsp;</strong>{parseFloat(liquidityToken0).toFixed(2)} {token0}</div>
-          <div><strong>{token1} Liquidity:&nbsp;</strong>{parseFloat(liquidityToken1).toFixed(2)} {token1}</div>
-          <div><strong>Implied Valuation:&nbsp;</strong>{(parseFloat(totalSupply)*parseFloat(token0Price)).toFixed(2)} {token0}</div>
+        <Col md="auto">
+          <h1 className="text-center">${symbol}</h1>
+          <div className="text-center">
+            <img src={punk7171} width="250px" style={{borderRadius: "25px"}}></img>
+          </div>
+        </Col>
+        <Col md="auto" style={{display: "flex", alignItems: "center"}}>
+          <div>
+            <div><strong>Token:&nbsp;</strong>${symbol}</div>
+            <div><strong>Name:&nbsp;</strong>{name}</div>
+            <div><strong>Reserve Price:&nbsp;</strong>{parseFloat(reservePrice).toFixed(2)} ETH</div>
+            <div><strong>Total Supply:&nbsp;</strong>{totalSupply && parseInt(totalSupply).toLocaleString()}</div>
+            <div><strong>{token1} Price:&nbsp;</strong>{parseFloat(token0Price).toFixed(5)} {token0}</div>
+            <div><strong>{token0} Price:&nbsp;</strong>{parseFloat(token1Price).toFixed(2)} {token1}</div>
+            <div><strong>{token0} Liquidity:&nbsp;</strong>{parseFloat(liquidityToken0).toFixed(2)} {token0}</div>
+            <div><strong>{token1} Liquidity:&nbsp;</strong>{parseFloat(liquidityToken1).toFixed(2)} {token1}</div>
+            <div><strong>Implied Valuation:&nbsp;</strong>{(parseFloat(totalSupply)*parseFloat(token0Price)).toFixed(2)} {token0}</div>
+          </div>
         </Col>
       </Row>
       <Row>
