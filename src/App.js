@@ -44,6 +44,7 @@ const poolQuery = `
 function App() {
   const provider = new ethers.providers.JsonRpcProvider("https://mainnet.infura.io/v3/6e758ef5d39a4fdeba50de7d10d08448");
   const hoodieContract = new ethers.Contract(HOODIE_ADDRESS, tokenVaultAbi, provider);
+  // client for GraphQL queries
   const client = new ApolloClient({
     uri: UNISWAP_V3_APIURL,
     cache: new InMemoryCache()
@@ -75,7 +76,6 @@ function App() {
       
       // Graph data
       let graphData = (await client.query({query: gql(poolQuery)})).data.pool;
-      console.log(graphData);
       setToken0(graphData.token0.symbol);
       setToken1(graphData.token1.symbol);
       setToken0Price(graphData.token0Price);

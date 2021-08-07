@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTable, useSortBy } from 'react-table';
+import { useTable, useSortBy, usePagination } from 'react-table';
 
 export default function SwapsTable({swaps, token0, token1}) {
 
@@ -28,56 +28,113 @@ export default function SwapsTable({swaps, token0, token1}) {
     ],
     []
   )
-  const tableInstance = useTable({columns, data: swaps}, useSortBy);
+  const tableInstance = useTable({columns, data: swaps}, useSortBy, usePagination);
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
     rows,
     prepareRow,
+    page,
+    canPreviousPage,
+    canNextPage,
+    pageOptions,
+    pageCount,
+    gotoPage,
+    nextPage,
+    previousPage,
+    setPageSize,
+    state: { pageIndex, pageSize },
   } = tableInstance;
 
   return (
-   <table {...getTableProps()} className="table table-hover">
-      <thead>
-        {
-        headerGroups.map(headerGroup => (
-          <tr {...headerGroup.getHeaderGroupProps()}>
-            {
-            headerGroup.headers.map(column => (
-              // Add column header sorting
-              <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                {column.render('Header')}
-                <span>
-                    {column.isSorted
-                      ? column.isSortedDesc
-                        ? ' 🔽'
-                        : ' 🔼'
-                      : ''}
-                  </span>
-              </th>
-            ))}
-          </tr>
-        ))}
-      </thead>
-      <tbody {...getTableBodyProps()}>
-        {
-        rows.map(row => {
-          prepareRow(row);
-          return (
-            <tr {...row.getRowProps([{style: {background: parseFloat(row.values.amount0) > 0 ? 'rgba(0, 255, 0, 0.25)' : 'rgba(255, 0, 0, 0.25)'}}])}>
+    <div>
+      <table {...getTableProps()} className="table table-hover table-bordered">
+        <thead>
+          {
+          headerGroups.map(headerGroup => (
+            <tr {...headerGroup.getHeaderGroupProps()}>
               {
-              row.cells.map(cell => {
-                return (
-                  <td {...cell.getCellProps()}>
-                    {cell.render('Cell')}
-                  </td>
-                )
-              })}
+              headerGroup.headers.map(column => (
+                // Add column header sorting
+                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                  {column.render('Header')}
+                  <span>
+                      {column.isSorted
+                        ? column.isSortedDesc
+                          ? ' 🔽'
+                          : ' 🔼'
+                        : ''}
+                    </span>
+                </th>
+              ))}
             </tr>
-          )
-        })}
-      </tbody>
-    </table>
+          ))}
+        </thead>
+        <tbody {...getTableBodyProps()}>
+          {
+          page.map(row => {
+            prepareRow(row);
+            return (
+              // Conditionally color rows red or green depending on if buy or sell
+              <tr {...row.getRowProps([{style: {background: parseFloat(row.values.amount0) > 0 ? 'rgba(0, 255, 0, 0.25)' : 'rgba(255, 0, 0, 0.25)'}}])}>
+                {
+                row.cells.map(cell => {
+                  return (
+                    <td {...cell.getCellProps()}>
+                      {cell.render('Cell')}
+                    </td>
+                  )
+                })}
+              </tr>
+            )
+          })}
+        </tbody>
+      </table>
+      <div className="pagination">
+        <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+          {'<<'}
+        </button>&nbsp;
+        <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+          {'<'}
+        </button>&nbsp;
+        <button onClick={() => nextPage()} disabled={!canNextPage}>
+          {'>'}
+        </button>&nbsp;
+        <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+          {'>>'}
+        </button>&nbsp;
+        <span>
+          Page&nbsp;
+          <strong>
+            {pageIndex + 1} of {pageOptions.length}&nbsp;
+          </strong>&nbsp;
+        </span>
+        <span>
+          | Go to page:&nbsp;
+          <input
+            type="number"
+            defaultValue={pageIndex + 1}
+            onChange={e => {
+              const page = e.target.value ? Number(e.target.value) - 1 : 0
+              gotoPage(page)
+            }}
+            style={{ width: '100px' }}
+          />
+        </span>&nbsp;
+        <select
+          value={pageSize}
+          onChange={e => {
+            setPageSize(Number(e.target.value))
+          }}
+        >
+          {[10, 20, 30, 40, 50].map(pageSize => (
+            <option key={pageSize} value={pageSize}>
+              Show {pageSize}
+            </option>
+          ))}
+        </select>
+      </div>
+    </div>
   )
 }
