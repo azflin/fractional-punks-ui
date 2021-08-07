@@ -36,16 +36,13 @@ export default function SwapsTable({swaps, token0, token1}) {
   } = tableInstance;
 
   return (
-    // apply the table props
-   <table {...getTableProps()} className="table">
+   <table {...getTableProps()} className="table table-hover">
       <thead>
-        {// Loop over the header rows
+        {
         headerGroups.map(headerGroup => (
-          // Apply the header row props
           <tr {...headerGroup.getHeaderGroupProps()}>
-            {// Loop over the headers in each row
+            {
             headerGroup.headers.map(column => (
-              // Apply the header cell props
               <th {...column.getHeaderProps(column.getSortByToggleProps())}>
                 {column.render('Header')}
                 <span>
@@ -60,13 +57,12 @@ export default function SwapsTable({swaps, token0, token1}) {
           </tr>
         ))}
       </thead>
-      {/* Apply the table body props */}
       <tbody {...getTableBodyProps()}>
-        {// Loop over the table rows
+        {
         rows.map(row => {
           prepareRow(row);
           return (
-            <tr {...row.getRowProps()}>
+            <tr {...row.getRowProps([{style: {background: 'blue'}}])}>
               {
               row.cells.map(cell => {
                 return (
