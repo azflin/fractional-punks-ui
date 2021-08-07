@@ -90,14 +90,15 @@ function App() {
   return (
     <Container>
       <Row>
-        <h1 className="text-center">{name}</h1>
+        <h1 className="text-center">${symbol}</h1>
         <div className="text-center">
-          <img src={punk7171} width="250px"></img>
+          <img src={punk7171} width="250px" style={{borderRadius: "25px"}}></img>
         </div>
       </Row>
       <Row>
         <Col>
           <div><strong>Token:&nbsp;</strong>${symbol}</div>
+          <div><strong>Name:&nbsp;</strong>{name}</div>
           <div><strong>Reserve Price:&nbsp;</strong>{parseFloat(reservePrice).toFixed(2)} ETH</div>
           <div><strong>Total Supply:&nbsp;</strong>{totalSupply && parseInt(totalSupply).toLocaleString()}</div>
           <div><strong>{token1} Price:&nbsp;</strong>{parseFloat(token0Price).toFixed(5)} {token0}</div>

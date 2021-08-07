@@ -33,7 +33,6 @@ export default function SwapsTable({swaps, token0, token1}) {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    rows,
     prepareRow,
     page,
     canPreviousPage,
@@ -77,7 +76,7 @@ export default function SwapsTable({swaps, token0, token1}) {
             prepareRow(row);
             return (
               // Conditionally color rows red or green depending on if buy or sell
-              <tr {...row.getRowProps([{style: {background: parseFloat(row.values.amount0) > 0 ? 'rgba(0, 255, 0, 0.25)' : 'rgba(255, 0, 0, 0.25)'}}])}>
+              <tr {...row.getRowProps([{style: {background: parseFloat(row.values.amount0) > 0 ? 'rgba(0, 255, 0, 0.2)' : 'rgba(255, 0, 0, 0.2)'}}])}>
                 {
                 row.cells.map(cell => {
                   return (
@@ -91,6 +90,7 @@ export default function SwapsTable({swaps, token0, token1}) {
           })}
         </tbody>
       </table>
+      {/* Pagination */}
       <div className="pagination">
         <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
           {'<<'}
