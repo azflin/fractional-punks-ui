@@ -89,7 +89,7 @@ function App() {
 
   return (
     <Container>
-      <Row>
+      <Row className="mt-3">
         <Col md="auto">
           <h1 className="text-center">${symbol}</h1>
           <div className="text-center">
@@ -97,7 +97,7 @@ function App() {
           </div>
         </Col>
         <Col md="auto" style={{display: "flex", alignItems: "center"}}>
-          <div>
+          <div style={{borderStyle: "ridge", borderRadius: "16px", padding: "15px", background: 'rgba(83, 83, 83, 0.55)'}}>
             <div><strong>Token:&nbsp;</strong>${symbol}</div>
             <div><strong>Name:&nbsp;</strong>{name}</div>
             <div><strong>Reserve Price:&nbsp;</strong>{parseFloat(reservePrice).toFixed(2)} ETH</div>
@@ -107,6 +107,9 @@ function App() {
             <div><strong>{token0} Liquidity:&nbsp;</strong>{parseFloat(liquidityToken0).toFixed(2)} {token0}</div>
             <div><strong>{token1} Liquidity:&nbsp;</strong>{parseFloat(liquidityToken1).toFixed(2)} {token1}</div>
             <div><strong>Implied Valuation:&nbsp;</strong>{(parseFloat(totalSupply)*parseFloat(token0Price)).toFixed(2)} {token0}</div>
+            <div><strong><a href={`https://fractional.art/vaults/${HOODIE_ADDRESS}`} target="_blank">Fractional Vault ↗️</a></strong></div>
+            <div><strong><a href={`https://etherscan.io/address/${HOODIE_ADDRESS}`} target="_blank">Etherscan Contract ↗️</a></strong></div>
+            <div><strong><a href={`https://info.uniswap.org/#/pools/${POOL_ADDRESS}`} target="_blank">Uniswap V3 Analytics ↗️</a></strong></div>
           </div>
         </Col>
       </Row>

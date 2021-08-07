@@ -48,7 +48,7 @@ export default function SwapsTable({swaps, token0, token1}) {
 
   return (
     <div>
-      <h3>Swaps (Last 100)</h3>
+      <h3>Trades (Last 100)</h3>
       <table {...getTableProps()}>
         <thead>
           {
