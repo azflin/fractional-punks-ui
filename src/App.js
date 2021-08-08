@@ -31,8 +31,8 @@ const poolQuery = `
         amount0,
         amount1
       },
-      poolDayData {
-        date,
+      poolHourData {
+        periodStartUnix,
         open,
         high,
         low,
@@ -65,7 +65,7 @@ function App() {
   const [liquidityToken0, setLiquidityToken0] = useState();
   const [liquidityToken1, setLiquidityToken1] = useState();
   const [swaps, setSwaps] = useState([]);
-  const [poolDayData, setPoolDayData] = useState([]);
+  const [poolHourData, setPoolHourData] = useState([]);
 
   // Initially retrieve data
   useEffect(() => {
@@ -85,9 +85,9 @@ function App() {
       setLiquidityToken0(graphData.totalValueLockedToken0);
       setLiquidityToken1(graphData.totalValueLockedToken1);
       setSwaps(graphData.swaps);
-      setPoolDayData(graphData.poolDayData.map(x => ({
+      setPoolHourData(graphData.poolHourData.map(x => ({
         close: parseFloat(x.close),
-        time: (new Date(x.date * 1000)).toISOString().split('T')[0],
+        time: x.periodStartUnix,
         open: parseFloat(x.open),
         low: parseFloat(x.low),
         high: parseFloat(x.high)})));
@@ -97,14 +97,13 @@ function App() {
 
   // Graph OHLCs
   useEffect(() => {
-    if (poolDayData.length) {
-      console.log(poolDayData);
+    if (poolHourData.length) {
       const chart = LightweightCharts.createChart(document.getElementById("chart"), {
         width: 600,
         height: 300,
         layout: {
-          backgroundColor: '#000000',
-          textColor: 'rgba(255, 255, 255, 0.9)',
+          backgroundColor: 'rgba(255, 255, 255, 1)',
+          textColor: 'rgba(0, 0, 0, 1)',
         },
         grid: {
           vertLines: {
@@ -122,19 +121,27 @@ function App() {
         },
         timeScale: {
           borderColor: 'rgba(197, 203, 206, 0.8)',
-        },
+        }
       });
       const candleSeries = chart.addCandlestickSeries({
         upColor: 'rgba(0, 255, 0, 1)',
         downColor: 'rgba(255, 0, 0, 1)',
-        borderDownColor: 'rgba(255, 255, 255, 1)',
-        borderUpColor: 'rgba(255, 255, 255, 1)',
-        wickDownColor: 'rgba(255, 0, 0, 1)',
-        wickUpColor: 'rgba(0, 255, 0, 1)',
+        borderDownColor: 'rgba(0, 0, 0, 1)',
+        borderUpColor: 'rgba(0, 0, 0, 1)',
+        wickDownColor: 'rgba(0, 0, 0, 1)',
+        wickUpColor: 'rgba(0, 0, 0, 1)',
       });
-      candleSeries.setData(poolDayData);
+      candleSeries.applyOptions({
+        priceFormat: {
+          type: 'custom',
+          minMove: 0.001,
+          precision: 3,
+          formatter: price => parseFloat(price).toFixed(3),
+        }
+      });
+      candleSeries.setData(poolHourData);
     }
-  }, [poolDayData]);
+  }, [poolHourData]);
 
   return (
     <Container>
@@ -162,10 +169,11 @@ function App() {
           </div>
         </Col>
         <Col md="auto" style={{display: "flex", alignItems: "center"}}>
+          {poolHourData.length && 
           <div>
-            <span>Daily OHLC Chart</span>
+            <span><strong>Hourly OHLC Chart (WETH per HOODIE)</strong></span>
             <div id="chart"></div>
-          </div>
+          </div>}
         </Col>
       </Row>
       <Row>
