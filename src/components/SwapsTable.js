@@ -26,7 +26,7 @@ export default function SwapsTable({swaps, token0, token1}) {
         Cell: props => parseFloat(props.value).toFixed(1)
       }
     ],
-    []
+    [token0, token1]
   )
   const tableInstance = useTable({columns, data: swaps}, useSortBy, usePagination);
   const {
