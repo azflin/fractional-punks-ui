@@ -30,13 +30,6 @@ const poolQuery = `
         timestamp,
         amount0,
         amount1
-      },
-      poolHourData {
-        periodStartUnix,
-        open,
-        high,
-        low,
-        close
       }
     }
   }
@@ -77,15 +70,52 @@ function App() {
       setTotalSupply(ethers.utils.formatEther(await hoodieContract.totalSupply()));
       
       // Uniswap v3 subgraph data
-      let graphData = (await client.query({query: gql(poolQuery)})).data.pool;
-      setToken0(graphData.token0.symbol);
-      setToken1(graphData.token1.symbol);
-      setToken0Price(graphData.token0Price);
-      setToken1Price(graphData.token1Price);
-      setLiquidityToken0(graphData.totalValueLockedToken0);
-      setLiquidityToken1(graphData.totalValueLockedToken1);
-      setSwaps(graphData.swaps);
-      setPoolHourData(graphData.poolHourData.map(x => ({
+      // Run once for poolQueryData
+      let poolQueryData = (await client.query({query: gql(poolQuery)})).data.pool;
+      setToken0(poolQueryData.token0.symbol);
+      setToken1(poolQueryData.token1.symbol);
+      setToken0Price(poolQueryData.token0Price);
+      setToken1Price(poolQueryData.token1Price);
+      setLiquidityToken0(poolQueryData.totalValueLockedToken0);
+      setLiquidityToken1(poolQueryData.totalValueLockedToken1);
+      setSwaps(poolQueryData.swaps);
+      // Paginate until all pool hour data is fetched
+      let singlePagePoolHourData;
+      let allPoolHourData = [];
+      let poolHourDataSkip = 0;
+      let poolHourDataQuery = `
+        {
+          pool (id: "${POOL_ADDRESS}") {
+            poolHourData(first: 100, skip: ${poolHourDataSkip}) {
+              periodStartUnix,
+              open,
+              high,
+              low,
+              close
+            }
+          }
+        }
+      `
+      do {
+        singlePagePoolHourData = (await client.query({query: gql(poolHourDataQuery)})).data.pool.poolHourData;
+        poolHourDataSkip += 100;
+        // Have to update the query 
+        poolHourDataQuery = `
+        {
+          pool (id: "${POOL_ADDRESS}") {
+            poolHourData(first: 100, skip: ${poolHourDataSkip}) {
+              periodStartUnix,
+              open,
+              high,
+              low,
+              close
+            }
+          }
+        }
+        `
+        allPoolHourData.push(...singlePagePoolHourData);
+      } while (singlePagePoolHourData.length === 100);
+      setPoolHourData(allPoolHourData.map(x => ({
         close: parseFloat(x.close),
         time: x.periodStartUnix,
         open: parseFloat(x.open),
@@ -149,7 +179,7 @@ function App() {
         <Col md="auto">
           <h1 className="text-center">${symbol}</h1>
           <div className="text-center">
-            <img src={punk7171} width="250px" style={{borderRadius: "25px"}}></img>
+            <img src={punk7171} width="260px" style={{borderRadius: "25px"}}></img>
           </div>
         </Col>
         <Col md="auto" style={{display: "flex", alignItems: "center"}}>
