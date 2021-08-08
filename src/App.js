@@ -125,12 +125,12 @@ function App() {
         },
       });
       const candleSeries = chart.addCandlestickSeries({
-        upColor: 'rgba(255, 144, 0, 1)',
-        downColor: '#000',
-        borderDownColor: 'rgba(255, 144, 0, 1)',
-        borderUpColor: 'rgba(255, 144, 0, 1)',
-        wickDownColor: 'rgba(255, 144, 0, 1)',
-        wickUpColor: 'rgba(255, 144, 0, 1)',
+        upColor: 'rgba(0, 255, 0, 1)',
+        downColor: 'rgba(255, 0, 0, 1)',
+        borderDownColor: 'rgba(255, 255, 255, 1)',
+        borderUpColor: 'rgba(255, 255, 255, 1)',
+        wickDownColor: 'rgba(255, 0, 0, 1)',
+        wickUpColor: 'rgba(0, 255, 0, 1)',
       });
       candleSeries.setData(poolDayData);
     }
@@ -161,8 +161,11 @@ function App() {
             <div><strong><a href={`https://info.uniswap.org/#/pools/${POOL_ADDRESS}`} target="_blank">Uniswap V3 Analytics ↗️</a></strong></div>
           </div>
         </Col>
-        <Col md="auto">
-          <div id="chart"></div>
+        <Col md="auto" style={{display: "flex", alignItems: "center"}}>
+          <div>
+            <span>Daily OHLC Chart</span>
+            <div id="chart"></div>
+          </div>
         </Col>
       </Row>
       <Row>
