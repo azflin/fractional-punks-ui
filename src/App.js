@@ -4,6 +4,7 @@ import { ethers } from "ethers";
 import tokenVaultAbi from "./abis/token-vault-abi.json";
 import React, { useEffect, useState } from 'react';
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
+import * as LightweightCharts from 'lightweight-charts';
 
 import SwapsTable from './components/SwapsTable.js';
 import punk7171 from './images/punk7171.png';
@@ -30,8 +31,8 @@ const poolQuery = `
         amount0,
         amount1
       },
-      poolHourData {
-        periodStartUnix
+      poolDayData {
+        date,
         open,
         high,
         low,
@@ -64,6 +65,7 @@ function App() {
   const [liquidityToken0, setLiquidityToken0] = useState();
   const [liquidityToken1, setLiquidityToken1] = useState();
   const [swaps, setSwaps] = useState([]);
+  const [poolDayData, setPoolDayData] = useState([]);
 
   // Initially retrieve data
   useEffect(() => {
@@ -74,7 +76,7 @@ function App() {
       setReservePrice(ethers.utils.formatEther(await hoodieContract.reservePrice()));
       setTotalSupply(ethers.utils.formatEther(await hoodieContract.totalSupply()));
       
-      // Graph data
+      // Uniswap v3 subgraph data
       let graphData = (await client.query({query: gql(poolQuery)})).data.pool;
       setToken0(graphData.token0.symbol);
       setToken1(graphData.token1.symbol);
@@ -83,9 +85,56 @@ function App() {
       setLiquidityToken0(graphData.totalValueLockedToken0);
       setLiquidityToken1(graphData.totalValueLockedToken1);
       setSwaps(graphData.swaps);
+      setPoolDayData(graphData.poolDayData.map(x => ({
+        close: parseFloat(x.close),
+        time: (new Date(x.date * 1000)).toISOString().split('T')[0],
+        open: parseFloat(x.open),
+        low: parseFloat(x.low),
+        high: parseFloat(x.high)})));
     }
     retrieveData();
   }, []);
+
+  // Graph OHLCs
+  useEffect(() => {
+    if (poolDayData.length) {
+      console.log(poolDayData);
+      const chart = LightweightCharts.createChart(document.getElementById("chart"), {
+        width: 600,
+        height: 300,
+        layout: {
+          backgroundColor: '#000000',
+          textColor: 'rgba(255, 255, 255, 0.9)',
+        },
+        grid: {
+          vertLines: {
+            color: 'rgba(197, 203, 206, 0.5)',
+          },
+          horzLines: {
+            color: 'rgba(197, 203, 206, 0.5)',
+          },
+        },
+        crosshair: {
+          mode: LightweightCharts.CrosshairMode.Normal,
+        },
+        rightPriceScale: {
+          borderColor: 'rgba(197, 203, 206, 0.8)',
+        },
+        timeScale: {
+          borderColor: 'rgba(197, 203, 206, 0.8)',
+        },
+      });
+      const candleSeries = chart.addCandlestickSeries({
+        upColor: 'rgba(255, 144, 0, 1)',
+        downColor: '#000',
+        borderDownColor: 'rgba(255, 144, 0, 1)',
+        borderUpColor: 'rgba(255, 144, 0, 1)',
+        wickDownColor: 'rgba(255, 144, 0, 1)',
+        wickUpColor: 'rgba(255, 144, 0, 1)',
+      });
+      candleSeries.setData(poolDayData);
+    }
+  }, [poolDayData]);
 
   return (
     <Container>
@@ -106,11 +155,14 @@ function App() {
             <div><strong>{token0} Price:&nbsp;</strong>{parseFloat(token1Price).toFixed(2)} {token1}</div>
             <div><strong>{token0} Liquidity:&nbsp;</strong>{parseFloat(liquidityToken0).toFixed(2)} {token0}</div>
             <div><strong>{token1} Liquidity:&nbsp;</strong>{parseFloat(liquidityToken1).toFixed(2)} {token1}</div>
-            <div><strong>Implied Valuation:&nbsp;</strong>{(parseFloat(totalSupply)*parseFloat(token0Price)).toFixed(2)} {token0}</div>
+            <div><strong>Implied Valuation:&nbsp;</strong>{(parseFloat(totalSupply)*parseFloat(token0Price)).toFixed(2)} {token0}</div><br></br>
             <div><strong><a href={`https://fractional.art/vaults/${HOODIE_ADDRESS}`} target="_blank">Fractional Vault ↗️</a></strong></div>
             <div><strong><a href={`https://etherscan.io/address/${HOODIE_ADDRESS}`} target="_blank">Etherscan Contract ↗️</a></strong></div>
             <div><strong><a href={`https://info.uniswap.org/#/pools/${POOL_ADDRESS}`} target="_blank">Uniswap V3 Analytics ↗️</a></strong></div>
           </div>
+        </Col>
+        <Col md="auto">
+          <div id="chart"></div>
         </Col>
       </Row>
       <Row>
