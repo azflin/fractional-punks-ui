@@ -4,6 +4,7 @@ import { ethers } from "ethers";
 import tokenVaultAbi from "./abis/token-vault-abi.json";
 import React, { useEffect, useState } from 'react';
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
+import { JSONRPC_PROVIDER } from "./secrets.json";
 import * as LightweightCharts from 'lightweight-charts';
 
 import SwapsTable from './components/SwapsTable.js';
@@ -36,7 +37,7 @@ const poolQuery = `
 `
 
 function App() {
-  const provider = new ethers.providers.JsonRpcProvider("https://mainnet.infura.io/v3/6e758ef5d39a4fdeba50de7d10d08448");
+  const provider = new ethers.providers.JsonRpcProvider(JSONRPC_PROVIDER);
   const hoodieContract = new ethers.Contract(HOODIE_ADDRESS, tokenVaultAbi, provider);
   // client for GraphQL queries
   const client = new ApolloClient({
