@@ -212,6 +212,9 @@ function App() {
         <SwapsTable swaps={swaps} token0={token0} token1={token1}></SwapsTable>
         }
       </Row>
+      <Row>
+        <span className="mt-4">Made by <a href="https://twitter.com/AzFlin">@AzFlin</a></span>
+      </Row>
     </Container>
   );
 }
