@@ -61,6 +61,29 @@ function App() {
   const [swaps, setSwaps] = useState([]);
   const [poolHourData, setPoolHourData] = useState([]);
 
+  const Root = (props) => (
+    <div style={{
+      display: 'flex'
+    }} {...props}/>
+  )
+
+  const Sidebar = (props) => (
+    <div style={{
+      width: '250px',
+      height: '100vh',
+      overflow: 'auto',
+      borderStyle: 'groove'
+    }} {...props} />
+  )
+
+  const Main = (props) => (
+    <div style={{
+      flex: 1,
+      height: '100vh',
+      overflow: 'auto'
+    }} {...props} />
+  )
+
   // Initially retrieve data
   useEffect(() => {
     async function retrieveData() {
@@ -175,47 +198,55 @@ function App() {
   }, [poolHourData]);
 
   return (
-    <Container>
-      <Row className="my-3">
-        <Col md="auto">
-          <h1 className="text-center">${symbol}</h1>
-          <div className="text-center">
-            <img src={punk7171} width="260px" style={{borderRadius: "25px"}}></img>
-          </div>
-        </Col>
-        <Col md="auto" style={{display: "flex", alignItems: "center"}}>
-          <div style={{borderStyle: "ridge", borderRadius: "16px", padding: "15px", background: 'rgba(83, 83, 83, 0.55)'}}>
-            <div><strong>Token:&nbsp;</strong>${symbol}</div>
-            <div><strong>Name:&nbsp;</strong>{name}</div>
-            <div><strong>Reserve Price:&nbsp;</strong>{parseFloat(reservePrice).toFixed(2)} ETH</div>
-            <div><strong>Total Supply:&nbsp;</strong>{totalSupply && parseInt(totalSupply).toLocaleString()}</div>
-            <div><strong>{token1} Price:&nbsp;</strong>{parseFloat(token0Price).toFixed(5)} {token0}</div>
-            <div><strong>{token0} Price:&nbsp;</strong>{parseFloat(token1Price).toFixed(2)} {token1}</div>
-            <div><strong>{token0} Liquidity:&nbsp;</strong>{parseFloat(liquidityToken0).toFixed(2)} {token0}</div>
-            <div><strong>{token1} Liquidity:&nbsp;</strong>{parseFloat(liquidityToken1).toFixed(2)} {token1}</div>
-            <div><strong>Implied Valuation:&nbsp;</strong>{(parseFloat(totalSupply)*parseFloat(token0Price)).toFixed(2)} {token0}</div><br></br>
-            <div><strong><a href={`https://fractional.art/vaults/${HOODIE_ADDRESS}`} target="_blank">Fractional Vault ↗️</a></strong></div>
-            <div><strong><a href={`https://etherscan.io/address/${HOODIE_ADDRESS}`} target="_blank">Etherscan Contract ↗️</a></strong></div>
-            <div><strong><a href={`https://info.uniswap.org/#/pools/${POOL_ADDRESS}`} target="_blank">Uniswap V3 Analytics ↗️</a></strong></div>
-          </div>
-        </Col>
-        <Col md="auto" style={{display: "flex", alignItems: "center"}}>
-          {poolHourData.length && 
-          <div>
-            <span><strong>Hourly OHLC Chart (WETH per HOODIE)</strong></span>
-            <div id="chart"></div>
-          </div>}
-        </Col>
-      </Row>
-      <Row>
-        { swaps.length && token0 && token1 &&
-        <SwapsTable swaps={swaps} token0={token0} token1={token1}></SwapsTable>
-        }
-      </Row>
-      <Row>
-        <span className="mt-4">Made by <a href="https://twitter.com/AzFlin">@AzFlin</a></span>
-      </Row>
-    </Container>
+    <Root>
+      <Sidebar>
+        <h3 className="text-center" style={{borderStyle: 'groove'}}>FRACTIONAL VAULTS</h3>
+      </Sidebar>
+      <Main>
+        <Container>
+          <Row className="my-3">
+            <Col md="auto">
+              <h1 className="text-center">${symbol}</h1>
+              <div className="text-center">
+                <img src={punk7171} width="260px" style={{borderRadius: "25px"}}></img>
+              </div>
+            </Col>
+            <Col md="auto" style={{display: "flex", alignItems: "center"}}>
+              <div style={{borderStyle: "ridge", borderRadius: "16px", padding: "15px", background: 'rgba(83, 83, 83, 0.55)'}}>
+                <div><strong>Token:&nbsp;</strong>${symbol}</div>
+                <div><strong>Name:&nbsp;</strong>{name}</div>
+                <div><strong>Reserve Price:&nbsp;</strong>{parseFloat(reservePrice).toFixed(2)} ETH</div>
+                <div><strong>Total Supply:&nbsp;</strong>{totalSupply && parseInt(totalSupply).toLocaleString()}</div>
+                <div><strong>{token1} Price:&nbsp;</strong>{parseFloat(token0Price).toFixed(5)} {token0}</div>
+                <div><strong>{token0} Price:&nbsp;</strong>{parseFloat(token1Price).toFixed(2)} {token1}</div>
+                <div><strong>{token0} Liquidity:&nbsp;</strong>{parseFloat(liquidityToken0).toFixed(2)} {token0}</div>
+                <div><strong>{token1} Liquidity:&nbsp;</strong>{parseFloat(liquidityToken1).toFixed(2)} {token1}</div>
+                <div><strong>Implied Valuation:&nbsp;</strong>{(parseFloat(totalSupply)*parseFloat(token0Price)).toFixed(2)} {token0}</div><br></br>
+                <div><strong><a href={`https://fractional.art/vaults/${HOODIE_ADDRESS}`} target="_blank">Fractional Vault ↗️</a></strong></div>
+                <div><strong><a href={`https://etherscan.io/address/${HOODIE_ADDRESS}`} target="_blank">Etherscan Contract ↗️</a></strong></div>
+                <div><strong><a href={`https://info.uniswap.org/#/pools/${POOL_ADDRESS}`} target="_blank">Uniswap V3 Analytics ↗️</a></strong></div>
+              </div>
+            </Col>
+            <Col md="auto" style={{display: "flex", alignItems: "center"}}>
+              {poolHourData.length && 
+              <div>
+                <span><strong>Hourly OHLC Chart (WETH per HOODIE)</strong></span>
+                <div id="chart"></div>
+              </div>}
+            </Col>
+          </Row>
+          <Row>
+            { swaps.length && token0 && token1 &&
+            <SwapsTable swaps={swaps} token0={token0} token1={token1}></SwapsTable>
+            }
+          </Row>
+          <Row>
+            <span className="mt-4">Made by <a href="https://twitter.com/AzFlin">@AzFlin</a></span>
+          </Row>
+        </Container>
+      </Main>
+    </Root>
+    
   );
 }
 
