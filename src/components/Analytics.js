@@ -146,9 +146,6 @@ export default function Analytics({jsonRpcProvider, apolloClient}) {
 
       // If token 0 is not WETH, then we have to inverse all the OHLCs
       let graphData = poolHourData;
-      console.log("vault:", vault);
-      console.log("token0:", token0);
-      console.log("token1:", token1);
       if (token0 !== 'WETH') {
         graphData = graphData.map(x => ({
           close: 1/parseFloat(x.close),
@@ -192,14 +189,26 @@ export default function Analytics({jsonRpcProvider, apolloClient}) {
         wickDownColor: 'rgba(0, 0, 0, 1)',
         wickUpColor: 'rgba(0, 0, 0, 1)',
       });
-      candleSeries.applyOptions({
-        priceFormat: {
-          type: 'custom',
-          minMove: 0.001,
-          precision: 3,
-          formatter: price => parseFloat(price).toFixed(3),
-        }
-      });
+      if (graphData[graphData.length-1].close < 1) {
+        let decimals = Math.ceil(-(Math.log10(graphData[graphData.length-1].close)));
+        candleSeries.applyOptions({
+          priceFormat: {
+            type: 'custom',
+            minMove: 1/10**(decimals+1),
+            precision: decimals,
+            formatter: price => parseFloat(price).toFixed(decimals+1),
+          }
+        });
+      } else {
+        candleSeries.applyOptions({
+          priceFormat: {
+            type: 'custom',
+            minMove: 0.1,
+            precision: 2,
+            formatter: price => parseFloat(price).toFixed(2),
+          }
+        });
+      }
       candleSeries.setData(graphData);
     }
   }, [poolHourData, token0]);
