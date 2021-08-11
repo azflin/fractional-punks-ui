@@ -139,14 +139,16 @@ export default function Analytics({jsonRpcProvider, apolloClient}) {
 
   // Graph OHLCs
   useEffect(() => {
-    if (poolHourData.length) {
+    // Check token0 and token1 to prevent extra graphing
+    if (poolHourData.length && [token0, token1].includes(vault.toUpperCase()) && [token0, token1].includes("WETH")) {
       // Clear the chart
       document.getElementById("chart").innerHTML = "";
 
       // If token 0 is not WETH, then we have to inverse all the OHLCs
       let graphData = poolHourData;
-      console.log("graphData: ", graphData);
-      console.log("token0: ", token0);
+      console.log("vault:", vault);
+      console.log("token0:", token0);
+      console.log("token1:", token1);
       if (token0 !== 'WETH') {
         graphData = graphData.map(x => ({
           close: 1/parseFloat(x.close),
