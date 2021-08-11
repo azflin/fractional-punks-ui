@@ -2,7 +2,6 @@ import React from 'react';
 import { useTable, useSortBy, usePagination } from 'react-table';
 
 export default function SwapsTable({swaps, token0, token1}) {
-
   const columns = React.useMemo(
     () => [
       {
@@ -77,7 +76,11 @@ export default function SwapsTable({swaps, token0, token1}) {
             prepareRow(row);
             return (
               // Conditionally color rows red or green depending on if buy or sell
-              <tr {...row.getRowProps([{style: {background: parseFloat(row.values.amount0) > 0 ? 'rgba(0, 255, 0, 0.2)' : 'rgba(255, 0, 0, 0.2)'}}])}>
+              <tr {...row.getRowProps([{style: {
+                  background: parseFloat(row.values.amount0) > 0
+                    ? (token0 === 'WETH' ? 'rgba(0, 255, 0, 0.2)' : 'rgba(255, 0, 0, 0.2)')
+                    : (token0 === 'WETH' ? 'rgba(255, 0, 0, 0.2)' : 'rgba(0, 255, 0, 0.2)')
+                }}])}>
                 {
                 row.cells.map(cell => {
                   return (

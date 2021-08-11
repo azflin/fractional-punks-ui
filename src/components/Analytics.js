@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 import SwapsTable from './SwapsTable.js';
 import punk7171 from '../images/punk7171.png';
 import deadpunk from '../images/deadpunk.png';
+import twinflames from '../images/twinflames.jpg';
 
 export const VAULTS = {
   hoodie: {
@@ -21,6 +22,11 @@ export const VAULTS = {
     token: "0x0c7060bf06a78aaaab3fac76941318a52a3f4613",
     pool: "0xcae45fc418e37e1fdb8e20536a643c5bf2301e01",
     image: deadpunk
+  },
+  twin: {
+    token: "0x82b2925e54ade5e10f5e6be31f604e5154701afa",
+    pool: "0x9fc59d6b7323757147bed0931092e9354cab7434",
+    image: twinflames
   }
 }
 
