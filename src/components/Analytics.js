@@ -134,6 +134,7 @@ export default function Analytics({jsonRpcProvider, apolloClient}) {
   // Graph OHLCs
   useEffect(() => {
     if (poolHourData.length) {
+      document.getElementById("chart").innerHTML = "";
       const chart = LightweightCharts.createChart(document.getElementById("chart"), {
         width: 600,
         height: 300,
@@ -190,24 +191,29 @@ export default function Analytics({jsonRpcProvider, apolloClient}) {
         </Col>
         <Col md="auto" style={{display: "flex", alignItems: "center"}}>
           <div style={{borderStyle: "ridge", borderRadius: "16px", padding: "15px", background: 'rgba(83, 83, 83, 0.55)'}}>
-            <div><strong>Token:&nbsp;</strong>${symbol}</div>
-            <div><strong>Name:&nbsp;</strong>{name}</div>
-            <div><strong>Reserve Price:&nbsp;</strong>{parseFloat(reservePrice).toFixed(2)} ETH</div>
-            <div><strong>Total Supply:&nbsp;</strong>{totalSupply && parseInt(totalSupply).toLocaleString()}</div>
-            <div><strong>{token1} Price:&nbsp;</strong>{parseFloat(token0Price).toFixed(5)} {token0}</div>
-            <div><strong>{token0} Price:&nbsp;</strong>{parseFloat(token1Price).toFixed(2)} {token1}</div>
-            <div><strong>{token0} Liquidity:&nbsp;</strong>{parseFloat(liquidityToken0).toFixed(2)} {token0}</div>
-            <div><strong>{token1} Liquidity:&nbsp;</strong>{parseFloat(liquidityToken1).toFixed(2)} {token1}</div>
-            <div><strong>Implied Valuation:&nbsp;</strong>{(parseFloat(totalSupply)*parseFloat(token0Price)).toFixed(2)} {token0}</div><br></br>
-            <div><strong><a href={`https://fractional.art/vaults/${VAULTS[vault].token}`} target="_blank">Fractional Vault ↗️</a></strong></div>
-            <div><strong><a href={`https://etherscan.io/address/${VAULTS[vault].token}`} target="_blank">Etherscan Contract ↗️</a></strong></div>
-            <div><strong><a href={`https://info.uniswap.org/#/pools/${VAULTS[vault].pool}`} target="_blank">Uniswap V3 Analytics ↗️</a></strong></div>
+            <div><b>Token:&nbsp;</b>${symbol}</div>
+            <div><b>Name:&nbsp;</b>{name}</div>
+            <div><b>Reserve Price:&nbsp;</b>{parseFloat(reservePrice).toFixed(2)} ETH</div>
+            <div><b>Total Supply:&nbsp;</b>{totalSupply && parseInt(totalSupply).toLocaleString()}</div>
+            <div><b>{token1} Price:&nbsp;</b>{parseFloat(token0Price).toFixed(5)} {token0}</div>
+            <div><b>{token0} Price:&nbsp;</b>{parseFloat(token1Price).toFixed(2)} {token1}</div>
+            <div><b>{token0} Liquidity:&nbsp;</b>{parseFloat(liquidityToken0).toFixed(2)} {token0}</div>
+            <div><b>{token1} Liquidity:&nbsp;</b>{parseFloat(liquidityToken1).toFixed(2)} {token1}</div>
+            <div className="mb-2"><b>Implied Valuation:&nbsp;</b>
+              {token0 === 'WETH'
+                ? <span>{(parseFloat(totalSupply)*parseFloat(token0Price)).toFixed(2)} {token0}</span>
+                : <span>{(parseFloat(totalSupply)*parseFloat(token1Price)).toFixed(2)} {token1}</span>
+              }
+            </div>
+            <div><b><a href={`https://fractional.art/vaults/${VAULTS[vault].token}`} target="_blank">Fractional Vault ↗️</a></b></div>
+            <div><b><a href={`https://etherscan.io/address/${VAULTS[vault].token}`} target="_blank">Etherscan Contract ↗️</a></b></div>
+            <div><b><a href={`https://info.uniswap.org/#/pools/${VAULTS[vault].pool}`} target="_blank">Uniswap V3 Analytics ↗️</a></b></div>
           </div>
         </Col>
         <Col md="auto" style={{display: "flex", alignItems: "center"}}>
           {poolHourData.length && 
           <div>
-            <span><strong>Hourly OHLC Chart (WETH per HOODIE)</strong></span>
+            <span><b>Hourly OHLC Chart (WETH per HOODIE)</b></span>
             <div id="chart"></div>
           </div>}
         </Col>
