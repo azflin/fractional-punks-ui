@@ -8,6 +8,7 @@ import { JSONRPC_PROVIDER } from "./secrets.json";
 import * as LightweightCharts from 'lightweight-charts';
 
 import SwapsTable from './components/SwapsTable.js';
+import Analytics from './components/Analytics';
 import punk7171 from './images/punk7171.png';
 
 const HOODIE_ADDRESS = "0xdffa3a7f5b40789c7a437dbe7b31b47f9b08fe75";
@@ -242,6 +243,7 @@ function App() {
           </Row>
           <Row>
             <span className="mt-4">Made by <a href="https://twitter.com/AzFlin">@AzFlin</a></span>
+            <Analytics tokenAddress={HOODIE_ADDRESS} poolAddress={POOL_ADDRESS} jsonRpcProvider={provider} apolloClient={client}></Analytics>
           </Row>
         </Container>
       </Main>
