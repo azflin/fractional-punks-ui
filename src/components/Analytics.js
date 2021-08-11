@@ -196,7 +196,7 @@ export default function Analytics({jsonRpcProvider, apolloClient}) {
             <div><b>Reserve Price:&nbsp;</b>{parseFloat(reservePrice).toFixed(2)} ETH</div>
             <div><b>Total Supply:&nbsp;</b>{totalSupply && parseInt(totalSupply).toLocaleString()}</div>
             <div><b>{token1} Price:&nbsp;</b>{parseFloat(token0Price).toFixed(5)} {token0}</div>
-            <div><b>{token0} Price:&nbsp;</b>{parseFloat(token1Price).toFixed(2)} {token1}</div>
+            <div><b>{token0} Price:&nbsp;</b>{parseFloat(token1Price).toFixed(5)} {token1}</div>
             <div><b>{token0} Liquidity:&nbsp;</b>{parseFloat(liquidityToken0).toFixed(2)} {token0}</div>
             <div><b>{token1} Liquidity:&nbsp;</b>{parseFloat(liquidityToken1).toFixed(2)} {token1}</div>
             <div className="mb-2"><b>Implied Valuation:&nbsp;</b>
