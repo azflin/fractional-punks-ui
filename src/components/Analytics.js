@@ -11,6 +11,11 @@ import SwapsTable from './SwapsTable.js';
 import punk7171 from '../images/punk7171.png';
 import deadpunk from '../images/deadpunk.png';
 import twinflames from '../images/twinflames.jpg';
+import aglyph from '../images/aglyph.svg';
+import abc123 from '../images/abc123.png';
+import fvey from '../images/fvey.gif';
+import peng from '../images/peng.png';
+import sweep from '../images/sweep.png';
 
 export const VAULTS = {
   hoodie: {
@@ -27,6 +32,31 @@ export const VAULTS = {
     token: "0x82b2925e54ade5e10f5e6be31f604e5154701afa",
     pool: "0x9fc59d6b7323757147bed0931092e9354cab7434",
     image: twinflames
+  },
+  aglyph: {
+    token: "0x8baad3be0eddf4ec8fbd9bc2946a972e30741f8c",
+    pool: "0xacd175e3b03d5e7953e2ff3486b38c5e8e193005",
+    image: aglyph
+  },
+  abc123: {
+    token: "0x9ff4f50efd40c915f7d1476bf36acb8908e0c56d",
+    pool: "0x9e3d38fec23e3351b5ecc0d0053e1fde889dedef",
+    image: abc123
+  },
+  fvey: {
+    image: fvey,
+    token: "0xd1eda954f16f846d8ee943a0b0b5faafb81e2a91",
+    pool: "0x175a72f57fb51998d76d63e9e6196f91ee6e0afb"
+  },
+  sweep: {
+    token: "0xfe2a5b942083d92135c7fe364bb75218e547cc62",
+    pool: "0xd9cfa54cc68ee6b67fb35b64e3a452c9c423e38f",
+    image: sweep
+  },
+  peng: {
+    token: "0xd532bd173d5519b4f1a37197a1d256329c2e8f35",
+    pool: "0x97ecbd29f48be6c6c20b163423b703876f6f8dfd",
+    image: peng
   }
 }
 
