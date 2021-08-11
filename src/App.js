@@ -10,7 +10,7 @@ import {
   Link
 } from "react-router-dom";
 
-import Analytics from './components/Analytics';
+import Analytics, { VAULTS } from './components/Analytics';
 
 const UNISWAP_V3_APIURL = "https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3"
 
@@ -46,14 +46,17 @@ function App() {
     }} {...props} />
   )
 
+  const links = Object.entries(VAULTS).map(([x, y]) => {
+    return <li key={x}><Link to={"/" + x}>${x.toUpperCase()}</Link></li>
+  });
+
   return (
     <Router>
       <Root>
         <Sidebar>
           <h3 className="text-center" style={{borderStyle: 'groove'}}>FRACTIONAL VAULTS</h3>        
             <ul>
-              <li><Link to="/hoodie">$HOODIE</Link></li>
-              <li><Link to="/dead">$DEAD</Link></li>
+              {links}
             </ul>
         </Sidebar>
         <Main>

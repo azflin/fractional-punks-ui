@@ -11,7 +11,7 @@ import SwapsTable from './SwapsTable.js';
 import punk7171 from '../images/punk7171.png';
 import deadpunk from '../images/deadpunk.png';
 
-const VAULTS = {
+export const VAULTS = {
   hoodie: {
     token: "0xdffa3a7f5b40789c7a437dbe7b31b47f9b08fe75",
     pool: "0xf1a8f0d86659c67780e3396bd6aee05af3566c6a",
@@ -77,7 +77,6 @@ export default function Analytics({jsonRpcProvider, apolloClient}) {
         }
       `
       let poolQueryData = (await apolloClient.query({query: gql(poolQuery)})).data.pool;
-      console.log(poolQueryData);
       setToken0(poolQueryData.token0.symbol);
       setToken1(poolQueryData.token1.symbol);
       setToken0Price(poolQueryData.token0Price);
@@ -136,7 +135,7 @@ export default function Analytics({jsonRpcProvider, apolloClient}) {
     if (poolHourData.length) {
       document.getElementById("chart").innerHTML = "";
       const chart = LightweightCharts.createChart(document.getElementById("chart"), {
-        width: 600,
+        width: 525,
         height: 300,
         layout: {
           backgroundColor: 'rgba(255, 255, 255, 1)',
