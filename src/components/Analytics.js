@@ -5,12 +5,28 @@ import React, { useEffect, useState } from 'react';
 import * as LightweightCharts from 'lightweight-charts';
 import { gql } from '@apollo/client';
 import { Container, Col, Row } from 'react-bootstrap';
+import { useParams } from "react-router-dom";
 
 import SwapsTable from './SwapsTable.js';
 import punk7171 from '../images/punk7171.png';
+import deadpunk from '../images/deadpunk.png';
 
-export default function Analytics({tokenAddress, poolAddress, jsonRpcProvider, apolloClient}) {
-  const tokenContract = new ethers.Contract(tokenAddress, tokenVaultAbi, jsonRpcProvider);
+const VAULTS = {
+  hoodie: {
+    token: "0xdffa3a7f5b40789c7a437dbe7b31b47f9b08fe75",
+    pool: "0xf1a8f0d86659c67780e3396bd6aee05af3566c6a",
+    image: punk7171
+  },
+  dead: {
+    token: "0x0c7060bf06a78aaaab3fac76941318a52a3f4613",
+    pool: "0xcae45fc418e37e1fdb8e20536a643c5bf2301e01",
+    image: deadpunk
+  }
+}
+
+export default function Analytics({jsonRpcProvider, apolloClient}) {
+  const { vault } = useParams();
+  const tokenContract = new ethers.Contract(VAULTS[vault].token, tokenVaultAbi, jsonRpcProvider);
 
   // from token contract (fractional's tokenVault) using ethers
   const [name, setName] = useState();
@@ -28,7 +44,7 @@ export default function Analytics({tokenAddress, poolAddress, jsonRpcProvider, a
   const [swaps, setSwaps] = useState([]);
   const [poolHourData, setPoolHourData] = useState([]);
 
-  // Initially retrieve data
+  // Retrieve data when vault changes
   useEffect(() => {
     async function retrieveData() {
       // Ethers contract data
@@ -41,7 +57,7 @@ export default function Analytics({tokenAddress, poolAddress, jsonRpcProvider, a
       // Run once for poolQueryData
       const poolQuery = `
         {
-          pool (id: "${poolAddress}") {
+          pool (id: "${VAULTS[vault].pool}") {
             token0 {
               symbol
             },
@@ -75,7 +91,7 @@ export default function Analytics({tokenAddress, poolAddress, jsonRpcProvider, a
       let poolHourDataSkip = 0;
       let poolHourDataQuery = `
         {
-          pool (id: "${poolAddress}") {
+          pool (id: "${VAULTS[vault].pool}") {
             poolHourData(first: 100, skip: ${poolHourDataSkip}) {
               periodStartUnix,
               open,
@@ -92,7 +108,7 @@ export default function Analytics({tokenAddress, poolAddress, jsonRpcProvider, a
         // Have to update the query 
         poolHourDataQuery = `
         {
-          pool (id: "${poolAddress}") {
+          pool (id: "${VAULTS[vault].pool}") {
             poolHourData(first: 100, skip: ${poolHourDataSkip}) {
               periodStartUnix,
               open,
@@ -113,7 +129,7 @@ export default function Analytics({tokenAddress, poolAddress, jsonRpcProvider, a
         high: parseFloat(x.high)})));
     }
     retrieveData();
-  }, []);
+  }, [vault]);
 
   // Graph OHLCs
   useEffect(() => {
@@ -169,7 +185,7 @@ export default function Analytics({tokenAddress, poolAddress, jsonRpcProvider, a
         <Col md="auto">
           <h1 className="text-center">${symbol}</h1>
           <div className="text-center">
-            <img src={punk7171} width="260px" style={{borderRadius: "25px"}}></img>
+            <img src={VAULTS[vault].image} width="260px" style={{borderRadius: "25px"}}></img>
           </div>
         </Col>
         <Col md="auto" style={{display: "flex", alignItems: "center"}}>
@@ -183,9 +199,9 @@ export default function Analytics({tokenAddress, poolAddress, jsonRpcProvider, a
             <div><strong>{token0} Liquidity:&nbsp;</strong>{parseFloat(liquidityToken0).toFixed(2)} {token0}</div>
             <div><strong>{token1} Liquidity:&nbsp;</strong>{parseFloat(liquidityToken1).toFixed(2)} {token1}</div>
             <div><strong>Implied Valuation:&nbsp;</strong>{(parseFloat(totalSupply)*parseFloat(token0Price)).toFixed(2)} {token0}</div><br></br>
-            <div><strong><a href={`https://fractional.art/vaults/${tokenAddress}`} target="_blank">Fractional Vault ↗️</a></strong></div>
-            <div><strong><a href={`https://etherscan.io/address/${tokenAddress}`} target="_blank">Etherscan Contract ↗️</a></strong></div>
-            <div><strong><a href={`https://info.uniswap.org/#/pools/${poolAddress}`} target="_blank">Uniswap V3 Analytics ↗️</a></strong></div>
+            <div><strong><a href={`https://fractional.art/vaults/${VAULTS[vault].token}`} target="_blank">Fractional Vault ↗️</a></strong></div>
+            <div><strong><a href={`https://etherscan.io/address/${VAULTS[vault].token}`} target="_blank">Etherscan Contract ↗️</a></strong></div>
+            <div><strong><a href={`https://info.uniswap.org/#/pools/${VAULTS[vault].pool}`} target="_blank">Uniswap V3 Analytics ↗️</a></strong></div>
           </div>
         </Col>
         <Col md="auto" style={{display: "flex", alignItems: "center"}}>

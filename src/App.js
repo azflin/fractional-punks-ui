@@ -3,19 +3,17 @@ import { ethers } from "ethers";
 import React from 'react';
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { JSONRPC_PROVIDER } from "./secrets.json";
-
-import Analytics from './components/Analytics';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
-  useParams
+  Link
 } from "react-router-dom";
 
-const HOODIE_ADDRESS = "0xdffa3a7f5b40789c7a437dbe7b31b47f9b08fe75";
-const POOL_ADDRESS = "0xf1a8f0d86659c67780e3396bd6aee05af3566c6a";
+import Analytics from './components/Analytics';
+
 const UNISWAP_V3_APIURL = "https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3"
+
 
 function App() {
   const provider = new ethers.providers.JsonRpcProvider(JSONRPC_PROVIDER);
@@ -49,20 +47,22 @@ function App() {
   )
 
   return (
-    <Root>
-      <Sidebar>
-        <h3 className="text-center" style={{borderStyle: 'groove'}}>FRACTIONAL VAULTS</h3>
-        <Router>
-          <ul>
-            <li><Link to="/hoodie">$HOODIE</Link></li>
-            <li><Link to="/dead">$DEAD</Link></li>
-          </ul>
-        </Router>
-      </Sidebar>
-      <Main>
-        <Analytics tokenAddress={HOODIE_ADDRESS} poolAddress={POOL_ADDRESS} jsonRpcProvider={provider} apolloClient={client}></Analytics>
-      </Main>
-    </Root>
+    <Router>
+      <Root>
+        <Sidebar>
+          <h3 className="text-center" style={{borderStyle: 'groove'}}>FRACTIONAL VAULTS</h3>        
+            <ul>
+              <li><Link to="/hoodie">$HOODIE</Link></li>
+              <li><Link to="/dead">$DEAD</Link></li>
+            </ul>
+        </Sidebar>
+        <Main>
+          <Switch>
+            <Route path="/:vault" children={<Analytics jsonRpcProvider={provider} apolloClient={client} />} />
+          </Switch>
+        </Main>
+      </Root>
+    </Router>
   );
 }
 
