@@ -121,7 +121,7 @@ export default function Analytics({jsonRpcProvider, apolloClient}) {
         `
         allPoolHourData.push(...singlePagePoolHourData);
       } while (singlePagePoolHourData.length === 100);
-      setPoolHourData(allPoolHourData.map(x => ({
+      setPoolHourData(allPoolHourData.slice(1).map(x => ({  // Remove the first tick as that starts at 0
         close: parseFloat(x.close),
         time: x.periodStartUnix,
         open: parseFloat(x.open),
