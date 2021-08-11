@@ -131,7 +131,8 @@ export default function Analytics({jsonRpcProvider, apolloClient}) {
         time: x.periodStartUnix,
         open: parseFloat(x.open),
         low: parseFloat(x.low),
-        high: parseFloat(x.high)})));
+        high: parseFloat(x.high)
+      })));
     }
     retrieveData();
   }, [vault]);
@@ -139,7 +140,23 @@ export default function Analytics({jsonRpcProvider, apolloClient}) {
   // Graph OHLCs
   useEffect(() => {
     if (poolHourData.length) {
+      // Clear the chart
       document.getElementById("chart").innerHTML = "";
+
+      // If token 0 is not WETH, then we have to inverse all the OHLCs
+      let graphData = poolHourData;
+      console.log("graphData: ", graphData);
+      console.log("token0: ", token0);
+      if (token0 !== 'WETH') {
+        graphData = graphData.map(x => ({
+          close: 1/parseFloat(x.close),
+          time: x.time,
+          open: 1/parseFloat(x.open),
+          low: 1/parseFloat(x.low),
+          high: 1/parseFloat(x.high)
+        }));
+      }
+
       const chart = LightweightCharts.createChart(document.getElementById("chart"), {
         width: 525,
         height: 300,
@@ -181,9 +198,9 @@ export default function Analytics({jsonRpcProvider, apolloClient}) {
           formatter: price => parseFloat(price).toFixed(3),
         }
       });
-      candleSeries.setData(poolHourData);
+      candleSeries.setData(graphData);
     }
-  }, [poolHourData]);
+  }, [poolHourData, token0]);
 
   return (
     <Container>
