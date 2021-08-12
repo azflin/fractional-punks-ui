@@ -1,4 +1,5 @@
-A react frontend to view analytics for [fractional.art](https://fractional.art/) vaults. Starting with $HOODIE GANG!
+A react frontend to view analytics for [fractional.art](https://fractional.art/) vaults. $HOODIE GANG!
+Not all vaults are shown, just ones I've chosen.
 
 Currently hosted at https://hoodie-gang.surge.sh/
 
