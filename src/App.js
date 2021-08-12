@@ -47,7 +47,7 @@ function App() {
   )
 
   const links = Object.entries(VAULTS).map(([x, y]) => {
-    return <li key={x}><Link to={"/" + x}>${x.toUpperCase()}</Link></li>
+    return <li key={x} className="sidebar-link"><Link to={"/" + x} style={{color: "inherit", fontSize: "125%"}}><div>${x.toUpperCase()}</div></Link></li>
   });
 
   return (
@@ -55,9 +55,9 @@ function App() {
       <Root>
         <Sidebar>
           <h3 className="text-center" style={{borderStyle: 'groove'}}>FRACTIONAL VAULTS</h3>        
-            <ul>
-              {links}
-            </ul>
+          <ul>
+            {links}
+          </ul>
         </Sidebar>
         <Main>
           <Switch>
