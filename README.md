@@ -4,7 +4,13 @@ Currently hosted at https://hoodie-gang.surge.sh/
 
 ### Installation Instructions
 
-- Edit src\secrets.json to your Infura (or other JSON RPC provider) URL
+- Create a src\secrets.json to your Infura (or other JSON RPC provider) URL
+```
+{
+  "JSONRPC_PROVIDER": "https://mainnet.infura.io/v3/YOUR_API_KEY"
+}
+```
+
 > yarn
 > 
 > yarn start
