@@ -28,11 +28,11 @@ export const VAULTS = {
     pool: "0xcae45fc418e37e1fdb8e20536a643c5bf2301e01",
     image: deadpunk
   },
-  twin: {
-    token: "0x82b2925e54ade5e10f5e6be31f604e5154701afa",
-    pool: "0x9fc59d6b7323757147bed0931092e9354cab7434",
-    image: twinflames
-  },
+  // twin: {
+  //   token: "0x82b2925e54ade5e10f5e6be31f604e5154701afa",
+  //   pool: "0x9fc59d6b7323757147bed0931092e9354cab7434",
+  //   image: twinflames
+  // },
   aglyph: {
     token: "0x8baad3be0eddf4ec8fbd9bc2946a972e30741f8c",
     pool: "0xacd175e3b03d5e7953e2ff3486b38c5e8e193005",

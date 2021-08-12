@@ -7,7 +7,8 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Link,
+  Redirect
 } from "react-router-dom";
 
 import Analytics, { VAULTS } from './components/Analytics';
@@ -61,6 +62,9 @@ function App() {
         </Sidebar>
         <Main>
           <Switch>
+            <Route exact path="/">
+              <Redirect to="/hoodie" />
+            </Route>
             <Route path="/:vault" children={<Analytics jsonRpcProvider={provider} apolloClient={client} />} />
           </Switch>
         </Main>
