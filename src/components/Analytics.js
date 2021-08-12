@@ -10,12 +10,15 @@ import { useParams } from "react-router-dom";
 import SwapsTable from './SwapsTable.js';
 import punk7171 from '../images/punk7171.png';
 import deadpunk from '../images/deadpunk.png';
-import twinflames from '../images/twinflames.jpg';
+// import twinflames from '../images/twinflames.jpg';
 import aglyph from '../images/aglyph.svg';
 import abc123 from '../images/abc123.png';
 import fvey from '../images/fvey.gif';
+import stoner from '../images/stoner.gif';
 import peng from '../images/peng.png';
 import sweep from '../images/sweep.png';
+import dsmb from '../images/dsmb.jpg';
+import orange from '../images/orange.png';
 
 export const VAULTS = {
   hoodie: {
@@ -57,6 +60,21 @@ export const VAULTS = {
     token: "0xd532bd173d5519b4f1a37197a1d256329c2e8f35",
     pool: "0x97ecbd29f48be6c6c20b163423b703876f6f8dfd",
     image: peng
+  },
+  dsmb: {
+    token: "0xe37254859c446bb35cb8ca478ac6439807274c6f",
+    pool: "0x01e6208c8d0410acd6c3bc50c787f3509235bd06",
+    image: dsmb
+  },
+  orange: {
+    token: "0x06c30962591720e1200b239fa70601381ba301d3",
+    pool: "0xe92ed3a39859df95e3acfee2b04818d33faedd6c",
+    image: orange
+  },
+  stoner: {
+    token: "0x49d30ac2b4d953c85a8717af9c5397415c444f14",
+    pool: "0x7706b3584bf0cac803e27430e02740d92ca656de",
+    image: stoner
   }
 }
 
