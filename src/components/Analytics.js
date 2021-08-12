@@ -19,6 +19,8 @@ import peng from '../images/peng.png';
 import sweep from '../images/sweep.png';
 import dsmb from '../images/dsmb.jpg';
 import orange from '../images/orange.png';
+import band from '../images/band.png';
+import apedog from '../images/apedog.png';
 
 export const VAULTS = {
   hoodie: {
@@ -75,6 +77,16 @@ export const VAULTS = {
     token: "0x49d30ac2b4d953c85a8717af9c5397415c444f14",
     pool: "0x7706b3584bf0cac803e27430e02740d92ca656de",
     image: stoner
+  },
+  band: {
+    token: "0x603e0cec8814b81633c851abbec5074bb7cd670c",
+    pool: "0x8b0dccd6b1519ef9307067e2812e4c8b43771e0e",
+    image: band
+  },
+  apedog: {
+    token: "0xc6a20bee7344d55ec5bf94d7e0cd5d1757a4bc02",
+    pool: "0x9d6498119ba6757812c2b35c150a041821218a12",
+    image: apedog
   }
 }
 
