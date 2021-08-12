@@ -4,7 +4,7 @@ import React from 'react';
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { JSONRPC_PROVIDER } from "./secrets.json";
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Switch,
   Route,
   Link,
