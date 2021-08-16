@@ -306,7 +306,7 @@ export default function Analytics({jsonRpcProvider, apolloClient}) {
         <Col md="auto" style={{display: "flex", alignItems: "center"}}>
           {poolHourData.length && 
           <div>
-            <span><b>Hourly OHLC Chart (WETH per HOODIE)</b></span>
+            <span><b>Hourly OHLC Chart</b></span>
             <div id="chart"></div>
           </div>}
         </Col>
