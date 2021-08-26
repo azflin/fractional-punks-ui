@@ -21,6 +21,7 @@ import dsmb from '../images/dsmb.jpg';
 import orange from '../images/orange.png';
 import band from '../images/band.png';
 import apedog from '../images/apedog.png';
+import pebble from '../images/pebble.png';
 
 export const VAULTS = {
   hoodie: {
@@ -87,6 +88,11 @@ export const VAULTS = {
     token: "0xc6a20bee7344d55ec5bf94d7e0cd5d1757a4bc02",
     pool: "0x9d6498119ba6757812c2b35c150a041821218a12",
     image: apedog
+  },
+  pebble: {
+    token: "0xdc98c5543f3004debfaad8966ec403093d0aa4a8",
+    pool: "0x5e2474ef1596acec4a7db53e7f666db1d1132afb",
+    image: pebble
   }
 }
 
